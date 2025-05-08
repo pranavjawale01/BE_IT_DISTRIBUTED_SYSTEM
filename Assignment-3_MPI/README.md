@@ -34,55 +34,29 @@ After installing the necessary packages, you need to compile the source code fil
 Run the following commands to compile each program:
 
 ```bash
-# Compile the sumOfArray.c file
-mpicc sumOfArray.c -o sum1
-
-# Compile the sumAtProcc.c file
-mpicc sumAtProcc.c -o sum2
+# Compile the mpi_sum.c file
+mpicc mpi_sum.c -o sum
 ```
-
-This will generate the following executables:
-
-* `sum1` for the first program (`sumOfArray.c`)
-* `sum2` for the second program (`sumAtProcc.c`)
 
 ---
 
 ## **3. Running the Programs**
 
-### **A. Compute the Sum of Elements in the Array**
+### **Compute the Sum of Elements in the Array**
 
-To run the first program (`sumOfArray.c`) and calculate the total sum, use the following command:
+To run the first program (`mpi_sum.c`) and calculate the total sum, use the following command:
 
 ```bash
-mpirun -np 4 ./sum1
+mpirun -np 4 ./sum
 ```
 
 or
 
 ```bash
-mpiexec -np 4 ./sum1
+mpiexec -np 4 ./sum
 ```
 
 Here, `-np 4` specifies that the program will use **4 processors**. You can change the number to use a different number of processors depending on your setup.
-
----
-
-### **B. Display Intermediate Sums Calculated at Different Processors**
-
-To demonstrate the intermediate sums calculated at each processor, use the following command:
-
-```bash
-mpirun -np 4 ./sum2
-```
-
-or
-
-```bash
-mpiexec -np 4 ./sum2
-```
-
-This shows how each processor calculates its partial sum and how the final sum is gathered.
 
 ---
 
