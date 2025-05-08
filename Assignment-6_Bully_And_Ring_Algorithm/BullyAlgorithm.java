@@ -76,7 +76,7 @@ class BullyAlgorithm {
             processes.add(scanner.nextInt());
         }
 
-        // Step 2: Select initiator
+        // Step 2: Select initiator 
         System.out.print("Enter the initiator process ID: ");
         int initiator = scanner.nextInt();
 

@@ -39,5 +39,4 @@ java BullyAlgorithm
 * Processes know all others.
 * An initiator contacts higher-ID processes.
 * Highest responding ID becomes the leader.
-
 ---
