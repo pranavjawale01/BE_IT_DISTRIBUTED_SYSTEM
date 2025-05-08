@@ -3,27 +3,33 @@ import java.util.Scanner;
 
 public class Client implements Runnable {
     private final int a, b;
+    private final String operation;
 
-    public Client(int a, int b) {
+    public Client(int a, int b, String operation) {
         this.a = a;
         this.b = b;
+        this.operation = operation;
     }
 
     public void run() {
         try {
-            // Get the current thread ID
             long threadId = Thread.currentThread().getId();
-            System.out.println("\n\nThread ID: " + threadId);  // Print the thread ID
+            System.out.println("\nThread ID: " + threadId + " performing: " + operation);
 
             String url = "rmi://localhost/Server";
             ServerInterface serverInterface = (ServerInterface) Naming.lookup(url);
 
-            // Perform operations
-            System.out.println("Addition: " + serverInterface.add(a, b));
-            System.out.println("Subtraction: " + serverInterface.sub(a, b));
-            System.out.println("Multiplication: " + serverInterface.mul(a, b));
-            System.out.println("Division: " + serverInterface.div(a, b));
-
+            if (operation.equals("add")) {
+                System.out.println("Addition: " + serverInterface.add(a, b));
+            } else if (operation.equals("sub")) {
+                System.out.println("Subtraction: " + serverInterface.sub(a, b));
+            } else if (operation.equals("mul")) {
+                System.out.println("Multiplication: " + serverInterface.mul(a, b));
+            } else if (operation.equals("div")) {
+                System.out.println("Division: " + serverInterface.div(a, b));
+            } else {
+                System.out.println("Invalid operation");
+            }
         } catch (Exception e) {
             System.out.println("Client Error: " + e);
         }
@@ -31,22 +37,19 @@ public class Client implements Runnable {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        String[] operations = {"add", "sub", "mul", "div"};
+
         try {
-            // Input numbers
             System.out.print("Enter Num 1 >> ");
             int a = sc.nextInt();
 
             System.out.print("Enter Num 2 >> ");
             int b = sc.nextInt();
 
-            System.out.print("Enter number of threads to run: ");
-            int t = sc.nextInt();
-
-            // Start multiple threads
-            for (int i = 0; i < t; i++) {
-                Thread clientThread = new Thread(new Client(a, b));
-                clientThread.start();  // Start the thread
-                clientThread.join();   // Wait for this thread to finish before starting the next
+            for (String op : operations) {
+                Thread clientThread = new Thread(new Client(a, b, op));
+                clientThread.start();
+                clientThread.join();  // Optional: sequential execution
             }
         } catch (Exception e) {
             System.out.println("Client Error: " + e);
